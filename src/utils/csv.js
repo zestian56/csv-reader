@@ -1,9 +1,21 @@
-const parseQuestions = questions => {
-  newData = questions.reduce((start, key, index) => {
+const parseHeaders = headers => {
+  let newData = headers.reduce((start, key, index) => {
+    return {
+      ...start,
+      [index]: {
+        category: key
+      }
+    };
+  });
+  return newData;
+};
+const parseQuestions = (questions,data) => {
+  let newData = questions.reduce((start, key, index) => {
     if (index <= 3) return start;
     return {
       ...start,
       [index]: {
+        ...data[index],
         value: index,
         label: key,
         type: "result-json",
@@ -34,6 +46,7 @@ module.exports = Object.assign(
   {},
   {
     parseQuestions,
-    parseAnswers
+    parseAnswers,
+    parseHeaders
   }
 );

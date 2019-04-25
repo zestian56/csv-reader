@@ -1,7 +1,7 @@
-const csvFilePath = __dirname + "/assets/results.csv";
+const csvFilePath = __dirname + "/assets/test.csv";
 const csv = require("fast-csv");
 const util = require("util");
-const { parseQuestions,parseAnswers } = require("./utils/csv");
+const { parseQuestions,parseAnswers,parseHeaders } = require("./utils/csv");
 
 const main = async () => {
   const resultData = await readCsv(csvFilePath);
@@ -16,8 +16,12 @@ const readCsv = path => {
       .fromPath(path)
       .on("data", function(data) {
         if (i === 0) {
-          newData = parseQuestions(data);
-        } else {
+          newData= parseHeaders(data);
+        }
+        else if ( i === 1){
+          newData = parseQuestions(data,newData);
+        }
+        else {
           newData = parseAnswers(data,newData);
         }
         i++;
